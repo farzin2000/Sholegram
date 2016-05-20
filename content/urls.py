@@ -15,15 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from authsystem.views import MyUserCreate, AuthUserCreate, index_page, logout_user, login_user
-from content.views import main_page
+from authsystem import views
 
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$',  index_page),
-    url(r'^auth$',  AuthUserCreate.as_view(template_name="user_form.html", success_url="/user_signup")),
-    url(r'^auth/logout$',  logout_user),
-    url(r'^auth/login$',  login_user),
-    url(r'^user_signup$',  MyUserCreate.as_view(template_name="user_form.html", success_url="/main")),
-    url(r'^main$', main_page),
-]
+# urlpatterns = [
+#     url(r'^main$',  ),
+# ]
