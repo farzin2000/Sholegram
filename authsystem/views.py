@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.views.generic.edit import CreateView
 from authsystem.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +8,10 @@ from django.contrib.auth.models import User as AuthUser
 # Create your views here.
 
 def index_page(request):
-    print(request.user.id)
-    print("ajaaab")
-    return render(request, 'index.html')
+    output = {
+        'user':request.user
+    }
+    return render_to_response('main.html', output)
 
 
 class AuthUserCreate(CreateView):

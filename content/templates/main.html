@@ -2,30 +2,89 @@
 
 {% block body %}
     <style>
-    .intro {
-        width: 400px;
-        direction: rtl;
-        margin: 20px auto 20px;
-    }
-    .intro p {
-        margin: auto auto;
-    }
+        .intro {
+            width: 400px;
+            direction: rtl;
+            margin: 20px auto 20px;
+        }
 
-    .login-signup {
-        width: 200px;
-        height: 100px;
-        margin: 0 auto;
-    }
+        .intro p {
+            margin: auto auto;
+        }
+
+        .login-signup {
+            width: 200px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .group-desc {
+            border-radius: 5px;
+            border: solid black 1px;
+            height: 80px;
+            text-align: center;
+            font-size: x-large;
+            margin-bottom: 5px;
+        }
+
+        .message {
+            border-radius: 10px;
+            border: solid black;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .author {
+            font-size: large;
+        }
+
     </style>
-    <div class="intro">
-        <p>
-            این شلگرام است بستری برای به اشتراک گزاری آنچه درون ذهن شماست...
-        </p>
-    </div>
 
-    <div class="login-signup row">
-        <a href="/auth" class="btn btn-primary">Signup</a>
-        <a href="/auth/login" class="btn btn-primary">Login</a>
-    </div>
+    {% if not user.is_authenticated %}
+
+        <div class="intro">
+            <p>
+                این شلگرام است بستری برای به اشتراک گزاری آنچه درون ذهن شماست...
+            </p>
+        </div>
+
+        <div class="login-signup row">
+            <a href="/auth" class="btn btn-primary">Signup</a>
+            <a href="/auth/login" class="btn btn-primary">Login</a>
+        </div>
+
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-3" style="border: solid black 1px; padding-top: 5px;">
+                <div class="form-group">
+                    <input type="text" class="form-control" style="width: 70%; display: inline-block">
+                    <button class="btn btn-primary">Search</button>
+                </div>
+                {% for group in groups %}
+
+                    <div class="group-desc">
+                        {{ group.groupId.name }}
+                        <span class="badge">5</span>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="col-md-9" style="border: solid black 1px; padding-top: 5px;">
+                {% include 'group_messages.html' with group=groups.first %}
+                <form class="form-group" style="margin: 5px;" action="/content/add" method="POST">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="content" style="display: inline-block; width: 90%;">
+                    <input type="hidden" class="form-control" name="group" value={{ groups.first.id}}>
+                    <button class="btn btn-primary">Send</button>
+                </form>
+            </div>
+
+        </div>
+    {% endif %}
 
 {% endblock %}

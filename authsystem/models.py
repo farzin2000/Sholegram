@@ -10,7 +10,6 @@ class User(models.Model):
     gender = models.CharField(max_length=10)
     avatar = models.ImageField(null=True,default='528675-roger-federer.jpg')
 
-
     def __str__(self):
 
         return self.user.username

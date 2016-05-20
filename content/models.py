@@ -20,6 +20,10 @@ class UserGroupRequest(models.Model):
     groupId = models.ForeignKey('Group')
     time = models.TimeField(auto_now=True)
 
+    def __str__(self):
+
+        return self.userId+str("->")+self.groupId.name
+
 class UserGroupAssignment(models.Model):
 
     id = models.IntegerField(primary_key=True)
@@ -27,12 +31,21 @@ class UserGroupAssignment(models.Model):
     groupId = models.ForeignKey('Group')
     time = models.TimeField(auto_now=True)
 
+    def __str__(self):
+
+        return self.userId.user.username+str("->")+self.groupId.name
+
+
 class Message(models.Model):
 
     id = models.IntegerField(primary_key=True)
     content = models.CharField(max_length=400)
-    userId = models.ForeignKey('authsystem.User')
+    membershipId = models.ForeignKey('UserGroupAssignment')
     time = models.TimeField(auto_now=True)
+
+    def __str__(self):
+
+        return self.content[:5]+str("->")+str("(")+self.membershipId.userId.user.username+str("->")+self.membershipId.groupId.name+str(")")
 
 class UserMessageSeen(models.Model):
 

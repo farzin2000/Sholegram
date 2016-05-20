@@ -1,0 +1,20 @@
+<p>
+    {{ group.groupId.name }}
+</p>
+<hr>
+{% for message in messages %}
+    {% if message.membershipId.groupId == group.groupId %}
+
+        <div class="message">
+
+            <div class="author">{{ message.membershipId.userId.user.username }}</div>
+            <hr>
+            <div class="content">
+                {{ message.content }}
+            </div>
+
+
+        </div>
+    {% endif %}
+
+{% endfor %}
